@@ -162,7 +162,7 @@ public class Analyzer
         {
             StopOnError("Expacted '{' arter if"); return false;
         }
-     
+
         if (ParseKeyWord("else"))
         {
 
@@ -180,7 +180,7 @@ public class Analyzer
             }
         }
         return true;
-      
+
     }
 
     public bool ParseWhile()
@@ -550,7 +550,7 @@ public class Analyzer
     {
         SkipBlanks();
         int p1 = position;
-        if (  ParseChars("!")
+        if (ParseChars("!")
            || ParseChars("-")
            || ParseChars("+")
 
@@ -661,7 +661,8 @@ public class Analyzer
         {
             if (isDouble)
             {
-                if (double.TryParse(str, out double doubleVal))
+                if (double.TryParse(str, System.Globalization.NumberStyles.Float,
+                     System.Globalization.CultureInfo.InvariantCulture, out double doubleVal))
                     CompiledCode.AddDouble(doubleVal);
                 else
                 {
@@ -703,11 +704,13 @@ public class Analyzer
             return true;
         }
 
-        if (GetVar(name, _funcName) == null)
+        var def = GetVar(name, _funcName);
+        if (def == null)
         {
-            StopOnError("qqqError"); return false;
-        }
 
+            StopOnError("undefinded variable: {" + name + "}"); return false;
+        }
+        CompiledCode.AddGlobVarValue(name); ;
         return true;
     }
 

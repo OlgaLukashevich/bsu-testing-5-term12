@@ -88,7 +88,7 @@ public class TokenOperation : Token
     }
 }
 
-public class TokenGoto: Token
+public class TokenGoto : Token
 {
     //public readonly Token ToToken;
     public readonly int toToken;
@@ -97,12 +97,32 @@ public class TokenGoto: Token
     {
         this.toToken = toToken;
     }
+
+
 }
 
+public class TokenVar : Token
+{
+    public string name { get; private set; }
+    public VariableDef def { get; private set; }
+
+    public TokenVar(string value, TokenType type) : base(type)
+    {
+        this.name = name;
+        this.def = def;
+    }
+
+
+}
 public class CompiledCode
 {
     public readonly IList<Token> tokens = new List<Token>();
 
+
+    public void AddGlobVarValue(string name)
+    {
+        this.tokens.Add(new TokenVar(name, TokenType.ValueGlobalVar));
+    }
     public void AddGoto(int toToken)
     {
         this.tokens.Add(new TokenGoto(TokenType.Goto, toToken));

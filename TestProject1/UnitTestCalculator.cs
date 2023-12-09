@@ -43,6 +43,8 @@ public class Tests
     [TestCase("7.0 - 2.0", 5)]
     [TestCase(" - 2.0 + 7.0", 5)]
     [TestCase(" -2.0 + 7.000", 5)]
+    [TestCase(" - 7.0 + 7.0", 0)]
+    [TestCase(" -9.0 + 7.000", -2)]
     [Test, Category("Positive scenario")]
     public void ComputesDoubleExpression(string expression, double expected)
     {
@@ -51,7 +53,7 @@ public class Tests
 
         const double tolerance = 1e-200;
 
-        Assert.That(Math.Abs(actualDouble - expected), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(actualDouble / expected - 1), Is.LessThanOrEqualTo(tolerance));
     }
 
     [TestCase(" 2 +3 ", 5)]
